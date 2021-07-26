@@ -58,7 +58,9 @@ according to your preferences.
 
 ## Formatting
 
-You may want to use [editorconfig.org](http://editorconfig.org/) to enforce the formatting settings in your editor. Use the [Node.js Style Guide .editorconfig file](.editorconfig) to have indentation, newslines and whitespace behavior automatically set to the rules set up below.
+You may want to use [editorconfig.org](http://editorconfig.org/) to enforce the formatting settings
+in your editor. Use the [Node.js Style Guide .editorconfig file](.editorconfig) to have indentation,
+newslines and whitespace behavior automatically set to the rules set up below.
 
 ### 2 Spaces for indentation
 
@@ -67,8 +69,9 @@ spaces - a special kind of hell is awaiting you otherwise.
 
 ### Newlines
 
-Use UNIX-style newlines (`\n`), and a newline character as the last character
-of a file. Windows-style newlines (`\r\n`) are forbidden inside any repository.
+Use Windows-style newlines (`\r\n`), and a newline character as the last character
+of a file. UNIX-style newlines (`\n`) are not suggested inside any repository. Git can be configured
+to deal with this on checkin/checkout.
 
 ### No trailing whitespace
 
@@ -91,6 +94,48 @@ cheap syntactic pleasures.
 Limit your lines to 80 characters. Yes, screens have gotten much bigger over the
 last few years, but your brain has not. Use the additional room for split screen,
 your editor supports that, right?
+
+### Spacing inside function calls
+
+BoxLogix tends to add spacing between the left and right paranthesis on if, for, while, etc statements
+and when using paranthesis to group items. This is mainly for those of us who have some vision issues.
+Parenthesis and some special characters can run together and be hard to distiquish.
+
+*Right:*
+
+```js
+let isValid = condition1 && ( !condition2 || ( condition3 && condition4 ) );
+
+if ( isValid ) {
+}
+
+for( let i = 0; i < 10; i++ ) {
+}
+```
+
+*Wrong:*
+
+```js
+let isValid = condition1 && (!condition2 || (condition3 && condition4));
+
+if (isValid) {
+}
+
+for (let i = 0; i < 10; i++) {
+}
+```
+
+*Acceptable or optional:*
+
+At the risk of seeming incosistent, quotes and curly brackets are optional from this rule.
+
+```js
+app.post('/url1', runUrl1 );
+app.use({
+  option1: true,
+  option2: false,
+});
+```
 
 ### Use single quotes
 
@@ -115,7 +160,7 @@ Your opening braces go on the same line as the statement.
 *Right:*
 
 ```js
-if (true) {
+if ( true ) {
   console.log('winning');
 }
 ```
@@ -145,7 +190,7 @@ var keys   = ['foo', 'bar'];
 var values = [23, 42];
 
 var object = {};
-while (keys.length) {
+while ( keys.length ) {
   var key = keys.pop();
   object[key] = values.pop();
 }
@@ -159,7 +204,7 @@ var keys = ['foo', 'bar'],
     object = {},
     key;
 
-while (keys.length) {
+while ( keys.length ) {
   key = keys.pop();
   object[key] = values.pop();
 }
@@ -295,7 +340,7 @@ The ternary operator should not be used on a single line. Split it up into multi
 *Right:*
 
 ```js
-var foo = (a === b)
+var foo = ( a === b )
   ? 1
   : 2;
 ```
@@ -315,7 +360,7 @@ Any non-trivial conditions should be assigned to a descriptively named variable 
 ```js
 var isValidPassword = password.length >= 4 && /^(?=.*\d).{4,}$/.test(password);
 
-if (isValidPassword) {
+if ( isValidPassword ) {
   console.log('winning');
 }
 ```
@@ -345,11 +390,11 @@ as possible.
 
 ```js
 function isPercentage(val) {
-  if (val < 0) {
+  if ( val < 0 ) {
     return false;
   }
 
-  if (val > 100) {
+  if ( val > 100 ) {
     return false;
   }
 
@@ -361,8 +406,8 @@ function isPercentage(val) {
 
 ```js
 function isPercentage(val) {
-  if (val >= 0) {
-    if (val < 100) {
+  if ( val >= 0 ) {
+    if ( val < 100 ) {
       return true;
     } else {
       return false;
@@ -377,8 +422,8 @@ Or for this particular example it may also be fine to shorten things even
 further:
 
 ```js
-function isPercentage(val) {
-  var isInRange = (val >= 0 && val <= 100);
+function isPercentage( val ) {
+  var isInRange = ( val >= 0 && val <= 100 );
   return isInRange;
 }
 ```
@@ -387,6 +432,8 @@ function isPercentage(val) {
 
 Feel free to give your closures a name. It shows that you care about them, and
 will produce better stack traces, heap and cpu profiles.
+
+We at BoxLogix tend to use arrow functions which are difficult to name so the naming generally overlooked.
 
 *Right:*
 
@@ -412,7 +459,7 @@ Use closures, but don't nest them. Otherwise your code will become a mess.
 
 ```js
 setTimeout(function() {
-  client.connect(afterConnect);
+  client.connect( afterConnect );
 }, 1000);
 
 function afterConnect() {
@@ -497,7 +544,7 @@ function loadUser(id, cb) {
 }
 
 var isSessionValid = (session.expires < Date.now());
-if (isSessionValid) {
+if ( isSessionValid ) {
   // ...
 }
 ```
@@ -550,7 +597,7 @@ be forever grateful.
 
 ```js
 var a = [];
-if (!a.length) {
+if ( !a.length ) {
   console.log('winning');
 }
 ```
@@ -563,7 +610,7 @@ Array.prototype.empty = function() {
 }
 
 var a = [];
-if (a.empty()) {
+if ( a.empty() ) {
   console.log('losing');
 }
 ```
